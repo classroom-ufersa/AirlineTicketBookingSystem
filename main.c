@@ -1,5 +1,6 @@
 #include<stdio.h>
-#include"sys.h"
+#include"airplane.h"
+#include"ticket.h"
 
 int main(){
 
