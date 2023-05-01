@@ -1,7 +1,8 @@
+#include "ticket.c"
 // Funções somente de tickets
 
 // Makes an airline reservation
-void book();
+Row * book(Row *r, int i);
 
 // Deletes a reservation
 void delete_book();
