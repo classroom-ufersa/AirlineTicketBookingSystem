@@ -61,7 +61,7 @@ void insere_passagem(Passagem **p) {
     numero_passagens += 1;
 
     // Arquivo para colocar os dados da struct é aberto
-    FILE *fp = fopen("Passagem.txt", "a+");
+    FILE *fp = fopen("/home/joao/Algorithms/sistema/output/Passagem.txt", "a+");
     if (fp == NULL) {
         printf("\nErro ao abrir o arquivo.\n");
         exit(1);
@@ -69,7 +69,6 @@ void insere_passagem(Passagem **p) {
 
     // ADICIONAR: Algoritmo de ordenação - abrir o aquivo, ler e ordenar
 
- 
     // Função que ordena os nomes em ordem alfabética
  
     // O Arquivo agora aberto é preenchido com os dados do usuário
@@ -95,6 +94,8 @@ void lista_passagens(Passagem *p, FILE *arquivo) {
 
     int opcao;
 
+    Passagem * novo = NULL;
+
     // Verificação se alguma reserva foi feita
     if (p == NULL) {
         printf("\nNenhum passagem cadastrada.\n");
@@ -111,28 +112,49 @@ void lista_passagens(Passagem *p, FILE *arquivo) {
     scanf("%d", &opcao);
     switch(opcao) {
         case 1:
-            while (p != NULL){
-                printf("\nNome: %s\n", p->nome);
-                printf("Origem: %s\n", p->origem);
-                printf("Destino: %s\n", p->destino);
-                printf("Aviao: %d\n\n", p->aviao);
-                p = p->prox;
+            if (p == NULL)
+            {
+                printf("\n\nLista vazia!\n\n");
             }
+
+            else{
+                while (p != NULL){
+                    printf("\nNome: %s\n", p->nome);
+                    printf("Origem: %s\n", p->origem);
+                    printf("Destino: %s\n", p->destino);
+                    printf("Aviao: %d\n\n", p->aviao);
+                    p = p->prox;
+                }
+            }
+            
+            
             break;
         case 2:
             // Abindo um arquivo que já foi criado para leitura
-            Passagem *p;
-
-            arquivo = fopen("Passagem.txt", "r");
+            arquivo = fopen("/home/joao/Algorithms/sistema/output/Passagem.txt", "r");
             if (arquivo == NULL) {
                 printf("\nErro ao abrir o arquivo.\n");
                 exit(1);
             } 
             char linha[100];
             while(fgets(linha, 100, arquivo) != NULL){
-                sscanf(linha, "Nome: %[^\t]\t: %[^\t]\tOrigem: %[^\t]\tDestino: %[^\t]\tAviao:%d", p->nome, p->origem, p->destino, p->aviao);
-                printf("Nome: %s\nOrigem: %s\nDestino: %s\nAviao: %d\n", p->nome, p->origem, p->destino, p->aviao);
-                p = p->prox;
+                Passagem *aux = (Passagem*) malloc(sizeof(Passagem));
+                sscanf(linha, "Nome: %[^\t]\tOrigem: %[^\t]\tDestino: %[^\t]\tAviao: %d\n", aux->nome, aux->origem, aux->destino, &aux->aviao);
+                printf("Nome: %s\nOrigem: %s\nDestino: %s\nAviao: %d\n\n", aux->nome, aux->origem, aux->destino, aux->aviao);
+                novo = aux;
+
+                novo->prox = NULL;
+                novo->ant = NULL;
+                if (p == NULL) {
+                    p = novo;
+                } else {
+                    Passagem *atual = p;
+                    while (atual->prox != NULL) {
+                    atual = atual->prox;
+                }
+                atual->prox = novo;
+                novo->ant = atual;
+                }
             }
             fclose(arquivo);
             break;
@@ -224,8 +246,9 @@ Passagem *busca_passagem(Passagem *lista) {
 
 void quantidade_passageiros(Passagem *p){
     int qnt_p = 0;
-    while (p->prox != NULL){
-        qnt_p++;
+    Passagem *contagem;
+    while (contagem->prox != NULL){
+        qnt_p = qnt_p + 1;
         printf("\n\nQuantidade de passageiros: %d\n\n", qnt_p);
     }
 }
