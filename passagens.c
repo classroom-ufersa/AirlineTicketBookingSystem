@@ -12,31 +12,6 @@ typedef struct passagem{
     struct passagem *ant;
 }Passagem;
 
-void passagem_ordem(Passagem **lista, Passagem *nova_passagem) {
-    // Caso a lista esteja vazia ou a nova passagem vem antes da primeira
-    if (*lista == NULL || strcmp(nova_passagem->nome, (*lista)->nome) < 0) {
-        nova_passagem->prox = *lista;
-        if (*lista != NULL) {
-            (*lista)->ant = nova_passagem;
-        }
-        *lista = nova_passagem;
-    }
-    
-    // Procurar a posição correta para inserir a nova passagem
-    Passagem *atual = *lista;
-    while (atual->prox != NULL && strcmp(nova_passagem->nome, atual->prox->nome) > 0) {
-        atual = atual->prox;
-    }
-    
-    // Inserir a nova passagem na posição correta
-    nova_passagem->prox = atual->prox;
-    if (atual->prox != NULL) {
-        atual->prox->ant = nova_passagem;
-    }
-    atual->prox = nova_passagem;
-    nova_passagem->ant = atual;
-}
-
 void insere_passagem(Passagem **p) {
 
     // Alocação da novo passagem
@@ -56,10 +31,7 @@ void insere_passagem(Passagem **p) {
     printf("Digite o numero do aviao\n: ");
     scanf("%d", &novo->aviao);
     printf("\n\nPassagem foi cadastrada com sucesso.\n\n");
-
-    int numero_passagens = 0;
-    numero_passagens += 1;
-
+    
     // Arquivo para colocar os dados da struct é aberto
     FILE *fp = fopen("/home/joao/Algorithms/sistema/output/Passagem.txt", "a+");
     if (fp == NULL) {
@@ -88,6 +60,31 @@ void insere_passagem(Passagem **p) {
         atual->prox = novo;
         novo->ant = atual;
     }
+}
+
+void passagem_ordem(Passagem **lista, Passagem *nova_passagem) {
+    // Caso a lista esteja vazia ou a nova passagem vem antes da primeira
+    if (*lista == NULL || strcmp(nova_passagem->nome, (*lista)->nome) < 0) {
+        nova_passagem->prox = *lista;
+        if (*lista != NULL) {
+            (*lista)->ant = nova_passagem;
+        }
+        *lista = nova_passagem;
+    }
+    
+    // Procurar a posição correta para inserir a nova passagem
+    Passagem *atual = *lista;
+    while (atual->prox != NULL && strcmp(nova_passagem->nome, atual->prox->nome) > 0) {
+        atual = atual->prox;
+    }
+    
+    // Inserir a nova passagem na posição correta
+    nova_passagem->prox = atual->prox;
+    if (atual->prox != NULL) {
+        atual->prox->ant = nova_passagem;
+    }
+    atual->prox = nova_passagem;
+    nova_passagem->ant = atual;
 }
 
 void lista_passagens(Passagem *p, FILE *arquivo) {
