@@ -39,10 +39,9 @@ int main(void){
                 // consultar_vagas(aviao);
                 break;
             case 6:
-                quantidade_passageiros(p);
+                // quantidade_passageiros(p);
                 break;
             case 7:
-                // libera_lista(p);
                 printf("\nObrigado por usar o nosso programa!\n\n");
                 exit(1);
                 break;
