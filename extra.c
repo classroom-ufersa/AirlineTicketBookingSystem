@@ -2,6 +2,7 @@
 #include<ctype.h>
 #include<string.h>
 
+
 void maiuscula(char *string) {
     int i, tamanho = strlen(string);
     for (i = 0; i < tamanho; i++) {
@@ -9,6 +10,8 @@ void maiuscula(char *string) {
             string[i] = toupper(string[i]);
         }
     }
+    string[i] = '\0';
+    remove_char_especiais(string);
 }
 
 int apenas_numeros(){
