@@ -9,7 +9,7 @@ typedef struct aviao{
     char destino[100];
 }Aviao;
 
-void consultar_vagas(Aviao *novo) {
+/*void consultar_vagas(Aviao *novo) {
 
     novo = (Aviao*) malloc(sizeof(Aviao));
     int disponiveis = 0, i;
@@ -18,7 +18,4 @@ void consultar_vagas(Aviao *novo) {
     }
     novo->vagas = 50 - disponiveis;
     printf("\n\nVagas disponiveis: %d\n\n", novo->vagas);
-}
-
-
-
+}*/
