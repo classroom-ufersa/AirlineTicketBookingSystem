@@ -62,29 +62,48 @@ void insere_passagem(Passagem **p) {
     }
 }
 
-void passagem_ordem(Passagem **lista, Passagem *nova_passagem) {
-    // Caso a lista esteja vazia ou a nova passagem vem antes da primeira
-    if (*lista == NULL || strcmp(nova_passagem->nome, (*lista)->nome) < 0) {
-        nova_passagem->prox = *lista;
-        if (*lista != NULL) {
-            (*lista)->ant = nova_passagem;
-        }
-        *lista = nova_passagem;
+Passagem **remove_passagem(Passagem **lista) {
+
+    char nome[100];
+    printf("\nDigite o nome do passagem a ser removida\n:");
+    scanf("%s", &nome);
+    maiuscula(nome);
+
+    if (*lista == NULL) {
+        printf("Lista vazia!\n");
+        return lista;
     }
-    
-    // Procurar a posição correta para inserir a nova passagem
-    Passagem *atual = *lista;
-    while (atual->prox != NULL && strcmp(nova_passagem->nome, atual->prox->nome) > 0) {
-        atual = atual->prox;
+
+    Passagem *novo = *lista;
+    while (novo != NULL && strcmp(novo->nome, nome) != 0) {
+        novo = novo->prox;
     }
-    
-    // Inserir a nova passagem na posição correta
-    nova_passagem->prox = atual->prox;
-    if (atual->prox != NULL) {
-        atual->prox->ant = nova_passagem;
+
+    if (novo == NULL) {
+        printf("\nPassagem nao foi encontrada!\n");
+        return lista;
     }
-    atual->prox = nova_passagem;
-    nova_passagem->ant = atual;
+
+    if (novo->ant == NULL) { // Se o passagem é a primeira da lista
+        *lista = novo->prox;
+    }
+
+    else { // Se o passagem não é a primeira da lista
+        novo->ant->prox = novo->prox;
+    }
+
+    if (novo->prox != NULL) { 
+        novo->prox->ant = novo->ant; // Lista é atualizada
+    }
+
+    free(novo); // Passagem é removida
+    printf("\nPassagem removido com sucesso!\n");
+
+    // ADICIONAR: Atualizar as remoções para o arquivo "passagem"
+
+    // ADICIONAR: Atualizar a ordem do arquivo (algoritmo de ordenação)
+
+    return lista;
 }
 
 void lista_passagens(Passagem *p, FILE *arquivo) {
@@ -160,50 +179,6 @@ void lista_passagens(Passagem *p, FILE *arquivo) {
     }
 }
 
-Passagem **remove_passagem(Passagem **lista) {
-
-    char nome[100];
-    printf("\nDigite o nome do passagem a ser removida\n:");
-    scanf("%s", &nome);
-    maiuscula(nome);
-
-    if (*lista == NULL) {
-        printf("Lista vazia!\n");
-        return lista;
-    }
-
-    Passagem *novo = *lista;
-    while (novo != NULL && strcmp(novo->nome, nome) != 0) {
-        novo = novo->prox;
-    }
-
-    if (novo == NULL) {
-        printf("\nPassagem nao foi encontrada!\n");
-        return lista;
-    }
-
-    if (novo->ant == NULL) { // Se o passagem é a primeira da lista
-        *lista = novo->prox;
-    }
-
-    else { // Se o passagem não é a primeira da lista
-        novo->ant->prox = novo->prox;
-    }
-
-    if (novo->prox != NULL) { 
-        novo->prox->ant = novo->ant; // Lista é atualizada
-    }
-
-    free(novo); // Passagem é removida
-    printf("\nPassagem removido com sucesso!\n");
-
-    // ADICIONAR: Atualizar as remoções para o arquivo "passagem"
-
-    // ADICIONAR: Atualizar a ordem do arquivo (algoritmo de ordenação)
-
-    return lista;
-}
-
 Passagem *busca_passagem(Passagem *lista) {
 
     // Verifica se a lista está vazia
@@ -241,22 +216,27 @@ Passagem *busca_passagem(Passagem *lista) {
     return NULL;
 }
 
-void quantidade_passageiros(Passagem *p){
-    int qnt_p = 0;
-    Passagem *contagem;
-    while (contagem->prox != NULL){
-        qnt_p = qnt_p + 1;
-        printf("\n\nQuantidade de passageiros: %d\n\n", qnt_p);
+/*void passagem_ordem(Passagem **lista, Passagem *nova_passagem) {
+    // Caso a lista esteja vazia ou a nova passagem vem antes da primeira
+    if (*lista == NULL || strcmp(nova_passagem->nome, (*lista)->nome) < 0) {
+        nova_passagem->prox = *lista;
+        if (*lista != NULL) {
+            (*lista)->ant = nova_passagem;
+        }
+        *lista = nova_passagem;
     }
-}
-
-/*void *libera_lista(Passagem *p){
-
-    int i;
-    Passagem * aux;
-    for ( i = 0; i < p->prox ; i++)
-    {
-        free(aux);
-        printf("\nLiberado.\n");
+    
+    // Procurar a posição correta para inserir a nova passagem
+    Passagem *atual = *lista;
+    while (atual->prox != NULL && strcmp(nova_passagem->nome, atual->prox->nome) > 0) {
+        atual = atual->prox;
     }
+    
+    // Inserir a nova passagem na posição correta
+    nova_passagem->prox = atual->prox;
+    if (atual->prox != NULL) {
+        atual->prox->ant = nova_passagem;
+    }
+    atual->prox = nova_passagem;
+    nova_passagem->ant = atual;
 }*/
