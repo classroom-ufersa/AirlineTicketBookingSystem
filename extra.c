@@ -3,6 +3,7 @@
 #include<string.h>
 
 
+// Transforma todos os caracteres em maiusculo e retira os caracteres especiais
 void maiuscula(char *string) {
     int i, tamanho = strlen(string);
     for (i = 0; i < tamanho; i++) {
@@ -14,6 +15,7 @@ void maiuscula(char *string) {
     remove_char_especiais(string);
 }
 
+// Função que faz com que o usuário digite apenas números
 int apenas_numeros(){
     int valor, retorno = -1;
     char letra;
@@ -27,6 +29,7 @@ int apenas_numeros(){
     return valor;
 }
 
+// Tratavivas para tirar os caracteres especoais
 void remove_char_especiais(char *nome_verificar) {
   int cont_original = 0, cont_novo = 0;
   char aux[50];
